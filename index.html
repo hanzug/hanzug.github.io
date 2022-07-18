@@ -149,6 +149,74 @@
     
     
     <article
+  id="post-Mocha and Railgun"
+  class="article article-type-post"
+  itemscope
+  itemprop="blogPost"
+  data-scroll-reveal
+>
+  <div class="article-inner">
+    
+    <header class="article-header">
+       
+<h2 itemprop="name">
+  <a class="article-title" href="/2022/07/18/Mocha%20and%20Railgun/"
+    >Mocha and Railgun</a> 
+</h2>
+ 
+
+      
+    </header>
+     
+    <div class="article-meta">
+      <a href="/2022/07/18/Mocha%20and%20Railgun/" class="article-date">
+  <time datetime="2022-07-18T14:16:06.690Z" itemprop="datePublished">2022-07-18</time>
+</a> 
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/%E6%95%B0%E5%AD%A6/">数学</a>
+  </div>
+   
+    </div>
+      
+    <div class="article-entry" itemprop="articleBody">
+       
+  <p><a target="_blank" rel="noopener" href="https://ac.nowcoder.com/acm/contest/33186/D">题目</a></p>
+<p><strong>题目大意：</strong></p>
+<blockquote>
+<p>给定一个圆和严格位于圆内的一点 <em>P</em></p>
+<p>Mocha 会从点 <em>P</em> 向任意角度发射一个长度为 2<em>d</em> 的电磁炮</p>
+<p>电磁炮底边的中点为点 <em>P</em> 且两端位于圆内</p>
+<p>询问单次发射能摧毁的最大圆弧长</p>
+<p>1 <em>≤</em> <em>T</em> <em>≤</em> 1000*,* <em>−</em>109 <em>≤</em> <em>x,</em> <em>y</em> <em>≤</em> 109*,* 1 <em>≤</em> <em>r</em>,<em>d</em> <em>≤</em> 109</p>
+</blockquote>
+<p><strong>复习了初中知识（😀</strong></p>
+<p>————————————</p>
+<p>知道了居然还有acos函数</p>
+<p><img src="https://s2.loli.net/2022/07/18/6vQuE4XZi8drsxL.jpg" alt="IMG_0162_20220718-215325_.PNG"></p>
+<p><img src="https://s2.loli.net/2022/07/18/DsY5KVohEFMSLBf.jpg" alt="IMG_0163_20220718-220036_.PNG"></p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">double</span> r, x, y, d;</span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">solve</span><span class="params">()</span></span>&#123;</span><br><span class="line">    cin &gt;&gt; r;</span><br><span class="line">    cin &gt;&gt; x &gt;&gt; y &gt;&gt; d;</span><br><span class="line">    </span><br><span class="line">    <span class="type">double</span> res = <span class="built_in">sqrt</span>(x * x + y * y);</span><br><span class="line">    <span class="type">double</span> t = <span class="built_in">acos</span>(<span class="number">-1</span>) - <span class="built_in">acos</span>((d - res) / r) - <span class="built_in">acos</span>((d + res) / r);</span><br><span class="line">    </span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;%10f\n&quot;</span>, t * r);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+ 
+      <!-- reward -->
+      
+    </div>
+    
+
+    <!-- copyright -->
+    
+    <footer class="article-footer">
+       
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%95%B0%E5%AD%A6/" rel="tag">数学</a></li></ul>
+
+    </footer>
+  </div>
+
+   
+    
+</article>
+
+    
+    <article
   id="post-未命名"
   class="article article-type-post"
   itemscope
