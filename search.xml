@@ -29,14 +29,30 @@
       </tags>
   </entry>
   <entry>
-    <title>search_test</title>
-    <url>/2022/07/18/search_test/</url>
+    <title>notes</title>
+    <url>/notes/index.html</url>
     <content><![CDATA[]]></content>
-      <categories>
-        <category>杂</category>
-      </categories>
-      <tags>
-        <tag>text</tag>
-      </tags>
+  </entry>
+  <entry>
+    <title>notes</title>
+    <url>/categories/index.html</url>
+    <content><![CDATA[<!-- ---
+title: 笔记
+date: 2022-07-18 09:06:06
+--- -->
+
+
+<!-- ---
+title: categories
+type: "categories"
+layout: "categories"
+--- -->
+
+]]></content>
+  </entry>
+  <entry>
+    <title>tags</title>
+    <url>/tags/index.html</url>
+    <content><![CDATA[]]></content>
   </entry>
 </search>
