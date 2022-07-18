@@ -84,7 +84,7 @@
         <span class="post-meta-item-icon">
             <i class="ri-quill-pen-line"></i>
             <span class="post-meta-item-text"> Word count:</span>
-            <span class="post-count">232</span>
+            <span class="post-count">233</span>
         </span>
     </span>
 
@@ -120,16 +120,11 @@
 <p>1.所有石子的个数为1， 且 all_xor 为0.</p>
 <p>2.至少有一堆石子的个数大于1， 且all_xor  $\neq$  0.</p>
 </blockquote>
+<p>$$\Updownarrow$$</p>
 <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">using</span> ll = <span class="type">long</span> <span class="type">long</span>;</span><br><span class="line"> </span><br><span class="line">ll n, ans;</span><br><span class="line"> </span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line">    cin &gt;&gt; n;</span><br><span class="line">     </span><br><span class="line">    <span class="type">bool</span> flag = <span class="number">0</span>;</span><br><span class="line">     </span><br><span class="line">    <span class="keyword">for</span>(ll i = <span class="number">2</span>; i * i &lt;= n; i ++ )&#123;</span><br><span class="line">        <span class="keyword">if</span>(n % i == <span class="number">0</span>)&#123;</span><br><span class="line">            <span class="type">int</span> cnt = <span class="number">0</span>;</span><br><span class="line">            <span class="keyword">while</span>(n % i == <span class="number">0</span>) n /= i, cnt ++ ;</span><br><span class="line">            ans ^= cnt;</span><br><span class="line">            <span class="keyword">if</span>(cnt != <span class="number">1</span>) flag = <span class="number">1</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">     </span><br><span class="line">    <span class="keyword">if</span>(n &gt; <span class="number">1</span>) ans ^= <span class="number">1</span>;</span><br><span class="line">     </span><br><span class="line">    <span class="keyword">if</span>((!flag &amp;&amp; !ans) || (flag &amp;&amp; ans)) <span class="built_in">puts</span>(<span class="string">&quot;Alice win&quot;</span>);</span><br><span class="line">    <span class="keyword">else</span> <span class="built_in">puts</span>(<span class="string">&quot;Bob win&quot;</span>);</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
  
       <!-- reward -->
-      
-      <div id="reword-out">
-        <div id="reward-btn">
-          Donate
-        </div>
-      </div>
       
     </div>
     
@@ -203,16 +198,6 @@
   </div>
 
    
-  <nav class="article-nav">
-    
-    
-      <a href="/2022/07/18/---/" class="article-nav-link">
-        <strong class="article-nav-caption">下一篇</strong>
-        <div class="article-nav-title">签到</div>
-      </a>
-    
-  </nav>
-
   
    
     
@@ -496,9 +481,40 @@
     viewer_init()
 </script> 
 <!-- MathJax -->
+ <script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+      tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+  });
+
+  MathJax.Hub.Queue(function() {
+      var all = MathJax.Hub.getAllJax(), i;
+      for(i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+      }
+  });
+</script>
+
+<script src="https://cdn.staticfile.org/mathjax/2.7.7/MathJax.js"></script>
+<script src="https://cdn.staticfile.org/mathjax/2.7.7/config/TeX-AMS-MML_HTMLorMML-full.js"></script>
+<script>
+  var ayerConfig = {
+    mathjax: true,
+  };
+</script>
 
 <!-- Katex -->
-
+ 
+    
+        <link rel="stylesheet" href="https://cdn.staticfile.org/KaTeX/0.15.1/katex.min.css">
+        <script src="https://cdn.staticfile.org/KaTeX/0.15.1/katex.min.js"></script>
+        <script src="https://cdn.staticfile.org/KaTeX/0.15.1/contrib/auto-render.min.js"></script>
+        
+    
+ 
 <!-- busuanzi  -->
  
 <script src="/js/busuanzi-2.3.pure.min.js"></script>
