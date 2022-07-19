@@ -149,6 +149,74 @@
     
     
     <article
+  id="post-Changign-Jewels"
+  class="article article-type-post"
+  itemscope
+  itemprop="blogPost"
+  data-scroll-reveal
+>
+  <div class="article-inner">
+    
+    <header class="article-header">
+       
+<h2 itemprop="name">
+  <a class="article-title" href="/2022/07/19/Changign-Jewels/"
+    >Changign Jewels</a> 
+</h2>
+ 
+
+      
+    </header>
+     
+    <div class="article-meta">
+      <a href="/2022/07/19/Changign-Jewels/" class="article-date">
+  <time datetime="2022-07-19T11:59:54.187Z" itemprop="datePublished">2022-07-19</time>
+</a> 
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/%E9%A2%98/">题</a>
+  </div>
+   
+    </div>
+      
+    <div class="article-entry" itemprop="articleBody">
+       
+  <p><a target="_blank" rel="noopener" href="https://atcoder.jp/contests/abc260/tasks/abc260_c">题目</a></p>
+<p><strong>大意</strong>:</p>
+<blockquote>
+<p>开局一颗宝石，有两种操作</p>
+<p>1.把一颗 N 级的红宝石变成一个 N - 1 级的红宝石和 X 个 N 级的蓝宝石</p>
+<p>2.把一颗 N 级的蓝宝石变成一个 N - 1 级的蓝宝石和 Y 个 N - 1 级的红宝石</p>
+<p>问：怎么操作使得最后得到的一级的蓝宝石最多</p>
+</blockquote>
+<p>心情：😢</p>
+<p><strong>函数写法</strong> ：</p>
+<p>由于宝石数量开局时是唯一的， 故可以以第一个宝石为源头，每一个宝石都是一个分支，直到分成等级为1，最后判断这个一级的宝石是否为蓝色。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">int</span> N, X, Y;</span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> int long long</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">calc</span><span class="params">(<span class="type">int</span> level, <span class="type">bool</span> is_red)</span></span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(level == <span class="number">1</span>) <span class="keyword">return</span> is_red ? <span class="number">0</span> : <span class="number">1</span>;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">if</span>(is_red)&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="built_in">calc</span>(level - <span class="number">1</span>, <span class="number">1</span>) + <span class="built_in">calc</span>(level, <span class="number">0</span>) * X;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="built_in">calc</span>(level - <span class="number">1</span>, <span class="number">1</span>) + <span class="built_in">calc</span>(level - <span class="number">1</span>, <span class="number">0</span>) * Y;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="type">signed</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line">    cin &gt;&gt; N &gt;&gt; X &gt;&gt; Y;</span><br><span class="line">    cout &lt;&lt; <span class="built_in">calc</span>(N, <span class="literal">true</span>) &lt;&lt; <span class="string">&#x27;\n&#x27;</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>dp实现</strong> ：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">int</span> N, X, Y, r[<span class="number">12</span>], b[<span class="number">12</span>];</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">solve</span><span class="params">()</span></span>&#123;</span><br><span class="line">    cin &gt;&gt; N &gt;&gt; X &gt;&gt; Y;</span><br><span class="line">    </span><br><span class="line">    r[<span class="number">1</span>] = <span class="number">0</span>, b[<span class="number">1</span>] = <span class="number">1</span>;</span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> n = <span class="number">2</span>; n &lt;= N; n ++ )&#123;</span><br><span class="line">        b[n] = r[n - <span class="number">1</span>] + b[n - <span class="number">1</span>] * Y;</span><br><span class="line">        r[n] = r[n - <span class="number">1</span>] + b[n] * X;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+ 
+      <!-- reward -->
+      
+    </div>
+    
+
+    <!-- copyright -->
+    
+    <footer class="article-footer">
+       
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%80%9D%E7%BB%B4/" rel="tag">思维</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%90%9C%E7%B4%A2/" rel="tag">搜索</a></li></ul>
+
+    </footer>
+  </div>
+
+   
+    
+</article>
+
+    
+    <article
   id="post-Qpwoeirut-And-The-City"
   class="article article-type-post"
   itemscope
