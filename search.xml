@@ -1,6 +1,86 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>Mocha and Railgun</title>
+    <url>/2022/07/18/Mocha%20and%20Railgun/</url>
+    <content><![CDATA[<p><a href="https://ac.nowcoder.com/acm/contest/33186/D">题目</a></p>
+<p><strong>题目大意：</strong></p>
+<blockquote>
+<p>给定一个圆和严格位于圆内的一点 <em>P</em></p>
+<p>Mocha 会从点 <em>P</em> 向任意角度发射一个长度为 2<em>d</em> 的电磁炮</p>
+<p>电磁炮底边的中点为点 <em>P</em> 且两端位于圆内</p>
+<p>询问单次发射能摧毁的最大圆弧长</p>
+<p>1 <em>≤</em> <em>T</em> <em>≤</em> 1000*,* <em>−</em>109 <em>≤</em> <em>x,</em> <em>y</em> <em>≤</em> 109*,* 1 <em>≤</em> <em>r</em>,<em>d</em> <em>≤</em> 109</p>
+</blockquote>
+<p><strong>复习了初中知识（😀</strong></p>
+<p>————————————</p>
+<p>知道了居然还有acos函数</p>
+<p><img src="https://s2.loli.net/2022/07/18/6vQuE4XZi8drsxL.jpg" alt="IMG_0162_20220718-215325_.PNG"></p>
+<p><img src="https://s2.loli.net/2022/07/18/DsY5KVohEFMSLBf.jpg" alt="IMG_0163_20220718-220036_.PNG"></p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="type">double</span> r, x, y, d;</span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">solve</span><span class="params">()</span></span>&#123;</span><br><span class="line">    cin &gt;&gt; r;</span><br><span class="line">    cin &gt;&gt; x &gt;&gt; y &gt;&gt; d;</span><br><span class="line">    </span><br><span class="line">    <span class="type">double</span> res = <span class="built_in">sqrt</span>(x * x + y * y);</span><br><span class="line">    <span class="type">double</span> t = <span class="built_in">acos</span>(<span class="number">-1</span>) - <span class="built_in">acos</span>((d - res) / r) - <span class="built_in">acos</span>((d + res) / r);</span><br><span class="line">    </span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;%10f\n&quot;</span>, t * r);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+]]></content>
+      <categories>
+        <category>数学</category>
+      </categories>
+      <tags>
+        <tag>数学</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Changign Jewels</title>
+    <url>/2022/07/19/Changign-Jewels/</url>
+    <content><![CDATA[<p><a href="https://atcoder.jp/contests/abc260/tasks/abc260_c">题目</a></p>
+<p><strong>大意</strong>:</p>
+<blockquote>
+<p>开局一颗宝石，有两种操作</p>
+<p>1.把一颗 N 级的红宝石变成一个 N - 1 级的红宝石和 X 个 N 级的蓝宝石</p>
+<p>2.把一颗 N 级的蓝宝石变成一个 N - 1 级的蓝宝石和 Y 个 N - 1 级的红宝石</p>
+<p>问：怎么操作使得最后得到的一级的蓝宝石最多</p>
+</blockquote>
+<p>心情：😢</p>
+<p><strong>函数写法</strong> ：</p>
+<p>由于宝石数量开局时是唯一的， 故可以以第一个宝石为源头，每一个宝石都是一个分支，直到分成等级为1，最后判断这个一级的宝石是否为蓝色。</p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="type">int</span> N, X, Y;</span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> int long long</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">calc</span><span class="params">(<span class="type">int</span> level, <span class="type">bool</span> is_red)</span></span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(level == <span class="number">1</span>) <span class="keyword">return</span> is_red ? <span class="number">0</span> : <span class="number">1</span>;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">if</span>(is_red)&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="built_in">calc</span>(level - <span class="number">1</span>, <span class="number">1</span>) + <span class="built_in">calc</span>(level, <span class="number">0</span>) * X;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="built_in">calc</span>(level - <span class="number">1</span>, <span class="number">1</span>) + <span class="built_in">calc</span>(level - <span class="number">1</span>, <span class="number">0</span>) * Y;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="type">signed</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line">    cin &gt;&gt; N &gt;&gt; X &gt;&gt; Y;</span><br><span class="line">    cout &lt;&lt; <span class="built_in">calc</span>(N, <span class="literal">true</span>) &lt;&lt; <span class="string">&#x27;\n&#x27;</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>dp实现</strong> ：</p>
+<p><img src="https://s2.loli.net/2022/07/19/CK31fQhlTkJv7Bs.jpg" alt="211A65E8-3782-44CD-966E-4F7028084C29.jpeg"></p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="type">int</span> N, X, Y, r[<span class="number">12</span>], b[<span class="number">12</span>];</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">solve</span><span class="params">()</span></span>&#123;</span><br><span class="line">    cin &gt;&gt; N &gt;&gt; X &gt;&gt; Y;</span><br><span class="line">    </span><br><span class="line">    r[<span class="number">1</span>] = <span class="number">0</span>, b[<span class="number">1</span>] = <span class="number">1</span>;</span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> n = <span class="number">2</span>; n &lt;= N; n ++ )&#123;</span><br><span class="line">        b[n] = r[n - <span class="number">1</span>] + b[n - <span class="number">1</span>] * Y;</span><br><span class="line">        r[n] = r[n - <span class="number">1</span>] + b[n] * X;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+]]></content>
+      <categories>
+        <category>题</category>
+      </categories>
+      <tags>
+        <tag>搜索</tag>
+        <tag>思维</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Qpwoeirut And The City</title>
+    <url>/2022/07/19/Qpwoeirut-And-The-City/</url>
+    <content><![CDATA[<p><a href="https://codeforces.com/contest/1706/problem/C">题目</a></p>
+<p><strong>大意</strong>：</p>
+<blockquote>
+<p>给你n栋楼，cool楼的定义为比它左右两栋的楼层都高，只可以添加楼层，不可以删减，求在建造尽可能多的cool楼的情况下添加的最少楼层。</p>
+</blockquote>
+<p>1）如果 n 是奇数的话， 那 2 ~ n - 1 的 cool楼 一定是 高低高低…..高（1010…. 1）这样来分配才是最多的</p>
+<p>2）如果 n 为偶数， 则又可以分情况</p>
+<p>​    1.第2个建筑为高，第 n - 1 个建筑为低， 即 01010100</p>
+<p>​    2.第2个建筑为低，第 n - 1 个建筑为高，即  00101010</p>
+<p>​    3.基于前两种情况，我们可以在数组的中间找到一个连续两个低的位置为分界点。</p>
+<p>​    即0101 00 1010</p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="type">int</span> n;</span><br><span class="line"><span class="type">int</span> a[N];</span><br><span class="line"><span class="type">int</span> ans1[N], ans2[N];</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">solve</span><span class="params">()</span></span>&#123;</span><br><span class="line">    cin &gt;&gt; n;</span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> i = <span class="number">1</span>; i &lt;= n; i ++ )&#123;</span><br><span class="line">        cin &gt;&gt; a[i];</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> i = <span class="number">1</span>; i &lt;= n + <span class="number">2</span>; i ++ )&#123;</span><br><span class="line">        ans1[i] = <span class="number">0</span>;</span><br><span class="line">        ans2[i] = <span class="number">0</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="type">int</span> ans = <span class="number">0</span>;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">if</span>(n &amp; <span class="number">1</span>)&#123; <span class="comment">// n 为奇数</span></span><br><span class="line">        <span class="keyword">for</span>(<span class="type">int</span> i = <span class="number">2</span>; i &lt;= n - <span class="number">1</span>; i += <span class="number">2</span>)&#123;</span><br><span class="line">            <span class="keyword">if</span>(a[i] &lt;= a[i - <span class="number">1</span>] || a[i] &lt;= a[i + <span class="number">1</span>])</span><br><span class="line">                ans += <span class="built_in">max</span>(a[i - <span class="number">1</span>], a[i + <span class="number">1</span>]) - a[i] + <span class="number">1</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        cout &lt;&lt; ans &lt;&lt; <span class="string">&#x27;\n&#x27;</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">else</span> &#123;</span><br><span class="line">        ans = <span class="number">2e14</span>;</span><br><span class="line">        <span class="keyword">for</span>(<span class="type">int</span> i = <span class="number">2</span>; i &lt;= n - <span class="number">1</span>; i += <span class="number">2</span>)&#123;</span><br><span class="line">            <span class="keyword">if</span>(a[i] &lt;= a[i - <span class="number">1</span>] || a[i] &lt;= a[i + <span class="number">1</span>])&#123;</span><br><span class="line">                ans1[i] += <span class="built_in">max</span>(a[i - <span class="number">1</span>], a[i + <span class="number">1</span>]) - a[i] + <span class="number">1</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">if</span>(i &gt;= <span class="number">4</span>) ans1[i] += ans1[i - <span class="number">2</span>];</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">for</span>(<span class="type">int</span> i = <span class="number">3</span>; i &lt;= n - <span class="number">1</span>; i += <span class="number">2</span>)&#123;</span><br><span class="line">            <span class="keyword">if</span>(a[i] &lt;= a[i - <span class="number">1</span>] || a[i] &lt;= a[i + <span class="number">1</span>])&#123;</span><br><span class="line">                ans2[i] += <span class="built_in">max</span>(a[i - <span class="number">1</span>], a[i + <span class="number">1</span>]) - a[i] + <span class="number">1</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">if</span>(i &gt;= <span class="number">3</span>) ans2[i] += ans2[i - <span class="number">2</span>];</span><br><span class="line">        &#125;</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">for</span>(<span class="type">int</span> i = <span class="number">2</span>; i &lt;= n - <span class="number">4</span>; i += <span class="number">2</span>)&#123;</span><br><span class="line">            ans = <span class="built_in">min</span>(ans, ans1[i] + ans2[n - <span class="number">1</span>] - ans2[i + <span class="number">2</span>]);</span><br><span class="line">            <span class="comment">//注意细节，因为ans1和ans2的高分别相邻，故加和的时候只需中间差一个就凑够了两个低</span></span><br><span class="line">        &#125;</span><br><span class="line">        ans = <span class="built_in">min</span>(ans, <span class="built_in">min</span>(ans1[n - <span class="number">2</span>], ans2[n - <span class="number">1</span>]));</span><br><span class="line">  		cout &lt;&lt; ans &lt;&lt; <span class="string">&#x27;\n&#x27;</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+]]></content>
+      <categories>
+        <category>题</category>
+      </categories>
+      <tags>
+        <tag>思维</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>anti-nim</title>
     <url>/2022/07/18/%E6%9C%AA%E5%91%BD%E5%90%8D/</url>
     <content><![CDATA[<p><a href="https://ac.nowcoder.com/acm/contest/37160/A">题目</a></p>
@@ -29,90 +109,6 @@
       </tags>
   </entry>
   <entry>
-    <title>Mocha and Railgun</title>
-    <url>/2022/07/18/Mocha%20and%20Railgun/</url>
-    <content><![CDATA[<p><a href="https://ac.nowcoder.com/acm/contest/33186/D">题目</a></p>
-<p><strong>题目大意：</strong></p>
-<blockquote>
-<p>给定一个圆和严格位于圆内的一点 <em>P</em></p>
-<p>Mocha 会从点 <em>P</em> 向任意角度发射一个长度为 2<em>d</em> 的电磁炮</p>
-<p>电磁炮底边的中点为点 <em>P</em> 且两端位于圆内</p>
-<p>询问单次发射能摧毁的最大圆弧长</p>
-<p>1 <em>≤</em> <em>T</em> <em>≤</em> 1000*,* <em>−</em>109 <em>≤</em> <em>x,</em> <em>y</em> <em>≤</em> 109*,* 1 <em>≤</em> <em>r</em>,<em>d</em> <em>≤</em> 109</p>
-</blockquote>
-<p><strong>复习了初中知识（😀</strong></p>
-<p>————————————</p>
-<p>知道了居然还有acos函数</p>
-<p><img src="https://s2.loli.net/2022/07/18/6vQuE4XZi8drsxL.jpg" alt="IMG_0162_20220718-215325_.PNG"></p>
-<p><img src="https://s2.loli.net/2022/07/18/DsY5KVohEFMSLBf.jpg" alt="IMG_0163_20220718-220036_.PNG"></p>
-<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="type">double</span> r, x, y, d;</span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">solve</span><span class="params">()</span></span>&#123;</span><br><span class="line">    cin &gt;&gt; r;</span><br><span class="line">    cin &gt;&gt; x &gt;&gt; y &gt;&gt; d;</span><br><span class="line">    </span><br><span class="line">    <span class="type">double</span> res = <span class="built_in">sqrt</span>(x * x + y * y);</span><br><span class="line">    <span class="type">double</span> t = <span class="built_in">acos</span>(<span class="number">-1</span>) - <span class="built_in">acos</span>((d - res) / r) - <span class="built_in">acos</span>((d + res) / r);</span><br><span class="line">    </span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;%10f\n&quot;</span>, t * r);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-]]></content>
-      <categories>
-        <category>数学</category>
-      </categories>
-      <tags>
-        <tag>数学</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Qpwoeirut And The City</title>
-    <url>/2022/07/19/Qpwoeirut-And-The-City/</url>
-    <content><![CDATA[<p><a href="https://codeforces.com/contest/1706/problem/C">题目</a></p>
-<p><strong>大意</strong>：</p>
-<blockquote>
-<p>给你n栋楼，cool楼的定义为比它左右两栋的楼层都高，只可以添加楼层，不可以删减，求在建造尽可能多的cool楼的情况下添加的最少楼层。</p>
-</blockquote>
-<p>1）如果 n 是奇数的话， 那 2 ~ n - 1 的 cool楼 一定是 高低高低…..高（1010…. 1）这样来分配才是最多的</p>
-<p>2）如果 n 为偶数， 则又可以分情况</p>
-<p>​    1.第2个建筑为高，第 n - 1 个建筑为低， 即 01010100</p>
-<p>​    2.第2个建筑为低，第 n - 1 个建筑为高，即  00101010</p>
-<p>​    3.基于前两种情况，我们可以在数组的中间找到一个连续两个低的位置为分界点。</p>
-<p>​    即0101 00 1010</p>
-<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="type">int</span> n;</span><br><span class="line"><span class="type">int</span> a[N];</span><br><span class="line"><span class="type">int</span> ans1[N], ans2[N];</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">solve</span><span class="params">()</span></span>&#123;</span><br><span class="line">    cin &gt;&gt; n;</span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> i = <span class="number">1</span>; i &lt;= n; i ++ )&#123;</span><br><span class="line">        cin &gt;&gt; a[i];</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> i = <span class="number">1</span>; i &lt;= n + <span class="number">2</span>; i ++ )&#123;</span><br><span class="line">        ans1[i] = <span class="number">0</span>;</span><br><span class="line">        ans2[i] = <span class="number">0</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="type">int</span> ans = <span class="number">0</span>;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">if</span>(n &amp; <span class="number">1</span>)&#123; <span class="comment">// n 为奇数</span></span><br><span class="line">        <span class="keyword">for</span>(<span class="type">int</span> i = <span class="number">2</span>; i &lt;= n - <span class="number">1</span>; i += <span class="number">2</span>)&#123;</span><br><span class="line">            <span class="keyword">if</span>(a[i] &lt;= a[i - <span class="number">1</span>] || a[i] &lt;= a[i + <span class="number">1</span>])</span><br><span class="line">                ans += <span class="built_in">max</span>(a[i - <span class="number">1</span>], a[i + <span class="number">1</span>]) - a[i] + <span class="number">1</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        cout &lt;&lt; ans &lt;&lt; <span class="string">&#x27;\n&#x27;</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">else</span> &#123;</span><br><span class="line">        ans = <span class="number">2e14</span>;</span><br><span class="line">        <span class="keyword">for</span>(<span class="type">int</span> i = <span class="number">2</span>; i &lt;= n - <span class="number">1</span>; i += <span class="number">2</span>)&#123;</span><br><span class="line">            <span class="keyword">if</span>(a[i] &lt;= a[i - <span class="number">1</span>] || a[i] &lt;= a[i + <span class="number">1</span>])&#123;</span><br><span class="line">                ans1[i] += <span class="built_in">max</span>(a[i - <span class="number">1</span>], a[i + <span class="number">1</span>]) - a[i] + <span class="number">1</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">if</span>(i &gt;= <span class="number">4</span>) ans1[i] += ans1[i - <span class="number">2</span>];</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">for</span>(<span class="type">int</span> i = <span class="number">3</span>; i &lt;= n - <span class="number">1</span>; i += <span class="number">2</span>)&#123;</span><br><span class="line">            <span class="keyword">if</span>(a[i] &lt;= a[i - <span class="number">1</span>] || a[i] &lt;= a[i + <span class="number">1</span>])&#123;</span><br><span class="line">                ans2[i] += <span class="built_in">max</span>(a[i - <span class="number">1</span>], a[i + <span class="number">1</span>]) - a[i] + <span class="number">1</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">if</span>(i &gt;= <span class="number">3</span>) ans2[i] += ans2[i - <span class="number">2</span>];</span><br><span class="line">        &#125;</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">for</span>(<span class="type">int</span> i = <span class="number">2</span>; i &lt;= n - <span class="number">4</span>; i += <span class="number">2</span>)&#123;</span><br><span class="line">            ans = <span class="built_in">min</span>(ans, ans1[i] + ans2[n - <span class="number">1</span>] - ans2[i + <span class="number">2</span>]);</span><br><span class="line">            <span class="comment">//注意细节，因为ans1和ans2的高分别相邻，故加和的时候只需中间差一个就凑够了两个低</span></span><br><span class="line">        &#125;</span><br><span class="line">        ans = <span class="built_in">min</span>(ans, <span class="built_in">min</span>(ans1[n - <span class="number">2</span>], ans2[n - <span class="number">1</span>]));</span><br><span class="line">  		cout &lt;&lt; ans &lt;&lt; <span class="string">&#x27;\n&#x27;</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-]]></content>
-      <categories>
-        <category>题</category>
-      </categories>
-      <tags>
-        <tag>思维</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Changign Jewels</title>
-    <url>/2022/07/19/Changign-Jewels/</url>
-    <content><![CDATA[<p><a href="https://atcoder.jp/contests/abc260/tasks/abc260_c">题目</a></p>
-<p><strong>大意</strong>:</p>
-<blockquote>
-<p>开局一颗宝石，有两种操作</p>
-<p>1.把一颗 N 级的红宝石变成一个 N - 1 级的红宝石和 X 个 N 级的蓝宝石</p>
-<p>2.把一颗 N 级的蓝宝石变成一个 N - 1 级的蓝宝石和 Y 个 N - 1 级的红宝石</p>
-<p>问：怎么操作使得最后得到的一级的蓝宝石最多</p>
-</blockquote>
-<p>心情：😢</p>
-<p><strong>函数写法</strong> ：</p>
-<p>由于宝石数量开局时是唯一的， 故可以以第一个宝石为源头，每一个宝石都是一个分支，直到分成等级为1，最后判断这个一级的宝石是否为蓝色。</p>
-<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="type">int</span> N, X, Y;</span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> int long long</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">calc</span><span class="params">(<span class="type">int</span> level, <span class="type">bool</span> is_red)</span></span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(level == <span class="number">1</span>) <span class="keyword">return</span> is_red ? <span class="number">0</span> : <span class="number">1</span>;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">if</span>(is_red)&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="built_in">calc</span>(level - <span class="number">1</span>, <span class="number">1</span>) + <span class="built_in">calc</span>(level, <span class="number">0</span>) * X;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="built_in">calc</span>(level - <span class="number">1</span>, <span class="number">1</span>) + <span class="built_in">calc</span>(level - <span class="number">1</span>, <span class="number">0</span>) * Y;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="type">signed</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line">    cin &gt;&gt; N &gt;&gt; X &gt;&gt; Y;</span><br><span class="line">    cout &lt;&lt; <span class="built_in">calc</span>(N, <span class="literal">true</span>) &lt;&lt; <span class="string">&#x27;\n&#x27;</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p><strong>dp实现</strong> ：</p>
-<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="type">int</span> N, X, Y, r[<span class="number">12</span>], b[<span class="number">12</span>];</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">solve</span><span class="params">()</span></span>&#123;</span><br><span class="line">    cin &gt;&gt; N &gt;&gt; X &gt;&gt; Y;</span><br><span class="line">    </span><br><span class="line">    r[<span class="number">1</span>] = <span class="number">0</span>, b[<span class="number">1</span>] = <span class="number">1</span>;</span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> n = <span class="number">2</span>; n &lt;= N; n ++ )&#123;</span><br><span class="line">        b[n] = r[n - <span class="number">1</span>] + b[n - <span class="number">1</span>] * Y;</span><br><span class="line">        r[n] = r[n - <span class="number">1</span>] + b[n] * X;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-]]></content>
-      <categories>
-        <category>题</category>
-      </categories>
-      <tags>
-        <tag>思维</tag>
-        <tag>搜索</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>notes</title>
-    <url>/notes/index.html</url>
-    <content><![CDATA[]]></content>
-  </entry>
-  <entry>
     <title>notes</title>
     <url>/categories/index.html</url>
     <content><![CDATA[<!-- ---
@@ -132,6 +128,11 @@ layout: "categories"
   <entry>
     <title>tags</title>
     <url>/tags/index.html</url>
+    <content><![CDATA[]]></content>
+  </entry>
+  <entry>
+    <title>notes</title>
+    <url>/notes/index.html</url>
     <content><![CDATA[]]></content>
   </entry>
 </search>

@@ -13,8 +13,6 @@
       />
       <title> </title>
   <meta name="generator" content="hexo-theme-ayer">
-      
-      <link rel="shortcut icon" href="/favicon.ico" />
        
 <link rel="stylesheet" href="/dist/main.css">
 
@@ -52,29 +50,6 @@
       
     <main class="content on">
       
-<section class="cover">
-    
-  <div class="cover-frame">
-    <div class="bg-box">
-      <img src="/images/cover1.jpg" alt="image frame" />
-    </div>
-    <div class="cover-inner text-center text-white">
-      <h1><a href="/"></a></h1>
-      <div id="subtitle-box">
-        
-        <span id="subtitle"></span>
-        
-      </div>
-      <div>
-        
-      </div>
-    </div>
-  </div>
-  <div class="cover-learn-more">
-    <a href="javascript:void(0)" class="anchor"><i class="ri-arrow-down-line"></i></a>
-  </div>
-</section>
-
 
 
 <script src="https://cdn.staticfile.org/typed.js/2.0.12/typed.min.js"></script>
@@ -194,6 +169,7 @@
 <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">int</span> N, X, Y;</span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> int long long</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">calc</span><span class="params">(<span class="type">int</span> level, <span class="type">bool</span> is_red)</span></span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(level == <span class="number">1</span>) <span class="keyword">return</span> is_red ? <span class="number">0</span> : <span class="number">1</span>;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">if</span>(is_red)&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="built_in">calc</span>(level - <span class="number">1</span>, <span class="number">1</span>) + <span class="built_in">calc</span>(level, <span class="number">0</span>) * X;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="built_in">calc</span>(level - <span class="number">1</span>, <span class="number">1</span>) + <span class="built_in">calc</span>(level - <span class="number">1</span>, <span class="number">0</span>) * Y;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="type">signed</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line">    cin &gt;&gt; N &gt;&gt; X &gt;&gt; Y;</span><br><span class="line">    cout &lt;&lt; <span class="built_in">calc</span>(N, <span class="literal">true</span>) &lt;&lt; <span class="string">&#x27;\n&#x27;</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <p><strong>dp实现</strong> ：</p>
+<p><img src="https://s2.loli.net/2022/07/19/CK31fQhlTkJv7Bs.jpg" alt="211A65E8-3782-44CD-966E-4F7028084C29.jpeg"></p>
 <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">int</span> N, X, Y, r[<span class="number">12</span>], b[<span class="number">12</span>];</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">solve</span><span class="params">()</span></span>&#123;</span><br><span class="line">    cin &gt;&gt; N &gt;&gt; X &gt;&gt; Y;</span><br><span class="line">    </span><br><span class="line">    r[<span class="number">1</span>] = <span class="number">0</span>, b[<span class="number">1</span>] = <span class="number">1</span>;</span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> n = <span class="number">2</span>; n &lt;= N; n ++ )&#123;</span><br><span class="line">        b[n] = r[n - <span class="number">1</span>] + b[n - <span class="number">1</span>] * Y;</span><br><span class="line">        r[n] = r[n - <span class="number">1</span>] + b[n] * X;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
  
@@ -430,7 +406,7 @@
     <ul>
       <li>
         Copyrights &copy;
-        2015-2022
+        2022
         <i class="ri-heart-fill heart_icon"></i> hanzug
       </li>
     </ul>
@@ -481,10 +457,6 @@
     <aside class="sidebar on">
       <button class="navbar-toggle"></button>
 <nav class="navbar">
-  
-  <div class="logo">
-    <a href="/"><img src="/images/ayer-side.svg" alt=""></a>
-  </div>
   
   <ul class="nav nav-main">
     
@@ -781,7 +753,9 @@
 </script>
  
 <!-- CanvasBackground -->
-
+ 
+<script src="/js/dz.js"></script>
+ 
 <script>
   if (window.mermaid) {
     mermaid.initialize({ theme: "forest" });
