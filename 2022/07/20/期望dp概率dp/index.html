@@ -11,7 +11,7 @@
         name="viewport"
         content="width=device-width, initial-scale=1, maximum-scale=1"
       />
-      <title>Changign Jewels |  </title>
+      <title>期望dp/概率dp |  </title>
   <meta name="generator" content="hexo-theme-ayer">
        
 <link rel="stylesheet" href="/dist/main.css">
@@ -51,7 +51,7 @@
     <main class="content on">
       <section class="outer">
   <article
-  id="post-Changign-Jewels"
+  id="post-期望dp概率dp"
   class="article article-type-post"
   itemscope
   itemprop="blogPost"
@@ -62,7 +62,7 @@
     <header class="article-header">
        
 <h1 class="article-title sea-center" style="border-left:0" itemprop="name">
-  Changign Jewels
+  期望dp/概率dp
 </h1>
  
 
@@ -70,11 +70,11 @@
     </header>
      
     <div class="article-meta">
-      <a href="/2022/07/19/Changign-Jewels/" class="article-date">
-  <time datetime="2022-07-19T11:59:54.187Z" itemprop="datePublished">2022-07-19</time>
+      <a href="/2022/07/20/%E6%9C%9F%E6%9C%9Bdp%E6%A6%82%E7%8E%87dp/" class="article-date">
+  <time datetime="2022-07-19T16:32:36.313Z" itemprop="datePublished">2022-07-20</time>
 </a> 
   <div class="article-category">
-    <a class="article-category-link" href="/categories/%E9%A2%98/">题</a>
+    <a class="article-category-link" href="/categories/%E7%AC%94%E8%AE%B0/">笔记</a>
   </div>
   
 <div class="word_count">
@@ -82,7 +82,7 @@
         <span class="post-meta-item-icon">
             <i class="ri-quill-pen-line"></i>
             <span class="post-meta-item-text"> Word count:</span>
-            <span class="post-count">293</span>
+            <span class="post-count">721</span>
         </span>
     </span>
 
@@ -91,7 +91,7 @@
         <span class="post-meta-item-icon">
             <i class="ri-book-open-line"></i>
             <span class="post-meta-item-text"> Reading time≈</span>
-            <span class="post-count">1 min</span>
+            <span class="post-count">3 min</span>
         </span>
     </span>
 </div>
@@ -104,24 +104,49 @@
   
     <div class="article-entry" itemprop="articleBody">
        
-  <p><a target="_blank" rel="noopener" href="https://atcoder.jp/contests/abc260/tasks/abc260_c">题目</a></p>
-<p><strong>大意</strong>:</p>
+  <p><strong>定义</strong></p>
 <blockquote>
-<p>开局一颗宝石，有两种操作</p>
-<p>1.把一颗 N 级的红宝石变成一个 N - 1 级的红宝石和 X 个 N 级的蓝宝石</p>
-<p>2.把一颗 N 级的蓝宝石变成一个 N - 1 级的蓝宝石和 Y 个 N - 1 级的红宝石</p>
-<p>问：怎么操作使得最后得到的一级的蓝宝石最多</p>
+<p><em>所求结果为某事件的期望的动态规划</em></p>
+<p>在动态规划的基础上，将状态值改成了<strong>概率</strong> 和 <strong>期望</strong> 的相关值，本质依旧是动态规划</p>
+<p>主要特点是，数学期望dp经常要先找到一个比较确定的起点 / 终点 来进行转移，故经常要逆推。</p>
+<p>状态转移形如：$\mathsf {F[ i ] = \sum P[ i\rightarrow j ] * f[ j ] + W[ i\rightarrow j ]}$  </p>
+<p>其中 p 为转移概率， w 为对答案的贡献</p>
 </blockquote>
-<p>心情：😢</p>
-<p><strong>函数写法</strong> ：</p>
-<p>由于宝石数量开局时是唯一的， 故可以以第一个宝石为源头，每一个宝石都是一个分支，直到分成等级为1，最后判断这个一级的宝石是否为蓝色。</p>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">int</span> N, X, Y;</span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> int long long</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">calc</span><span class="params">(<span class="type">int</span> level, <span class="type">bool</span> is_red)</span></span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(level == <span class="number">1</span>) <span class="keyword">return</span> is_red ? <span class="number">0</span> : <span class="number">1</span>;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">if</span>(is_red)&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="built_in">calc</span>(level - <span class="number">1</span>, <span class="number">1</span>) + <span class="built_in">calc</span>(level, <span class="number">0</span>) * X;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="built_in">calc</span>(level - <span class="number">1</span>, <span class="number">1</span>) + <span class="built_in">calc</span>(level - <span class="number">1</span>, <span class="number">0</span>) * Y;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="type">signed</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line">    cin &gt;&gt; N &gt;&gt; X &gt;&gt; Y;</span><br><span class="line">    cout &lt;&lt; <span class="built_in">calc</span>(N, <span class="literal">true</span>) &lt;&lt; <span class="string">&#x27;\n&#x27;</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><em>要点</em> </p>
+<blockquote>
+<ol>
+<li>注意终点或是起点的概率。一般很容易判断，进而进行状态转移。</li>
+<li>注意初始化。</li>
+<li>一个期望可以被分成多个子期望的加权和，即</li>
+</ol>
+<blockquote>
+<p>$E(aA + bB + …) = aE(A) + bE(B)…$ </p>
+</blockquote>
+</blockquote>
+<hr>
+<p><strong>例题1</strong></p>
+<p><a target="_blank" rel="noopener" href="https://www.acwing.com/problem/content/description/219/">绿豆蛙的归宿</a></p>
+<p>题目描述：</p>
+<blockquote>
+<p>给出张 n 个点 m 条边的有向无环图，起点为 1，终点为 n，每条边都有一个长度，并且从起点出发能够到达所有的点，所有的点也都能够到达终点。绿豆蛙从起点出发，走向终点。 到达每一个顶点时，如果该节点有 k 条出边，绿豆蛙可以选择任意一条边离开该点，并且走向每条边的概率为 $\frac 1k$  现在绿豆蛙想知道，从起点走到终点的所经过的路径总长度期望是多少？</p>
+</blockquote>
+<p>思路：</p>
+<p>$f[i] 为从 i 跳到 n 的期望长度$ </p>
+<p>状态转移起点: $f[n]$</p>
+<p>答案：$f[1]$</p>
+<p>因为是有向无环图，直接由拓扑序从后往前推一遍</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">int</span> n, m;</span><br><span class="line"><span class="type">int</span> h[N], e[M], w[M], ne[M], idx;</span><br><span class="line"><span class="type">int</span> dout[N];</span><br><span class="line"><span class="type">double</span> f[N];</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">double</span> <span class="title">dp</span><span class="params">(<span class="type">int</span> u)</span></span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(f[u] &gt;= <span class="number">0</span>) <span class="keyword">return</span> f[u]; <span class="comment">//记忆化搜索</span></span><br><span class="line">    f[u] = <span class="number">0</span>;<span class="comment">// 没搜到过，是终点， 初始化 n 到 n 的距离期望为 0。 （确实好判断</span></span><br><span class="line">	<span class="keyword">for</span>(<span class="type">int</span> i = h[u]; i != <span class="number">-1</span>; i = ne[i])&#123;</span><br><span class="line">        <span class="type">int</span> j = e[i];</span><br><span class="line">        f[u] += (w[i] + <span class="built_in">dp</span>(j)) / dout[u]; <span class="comment">// 1 / dout[u] 为概率 p, w[i] + dp(j) 为权值</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> f[u];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-<p><strong>dp实现</strong> ：</p>
-<p><img src="https://s2.loli.net/2022/07/19/CK31fQhlTkJv7Bs.jpg" alt="211A65E8-3782-44CD-966E-4F7028084C29.jpeg"></p>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">int</span> N, X, Y, r[<span class="number">12</span>], b[<span class="number">12</span>];</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">solve</span><span class="params">()</span></span>&#123;</span><br><span class="line">    cin &gt;&gt; N &gt;&gt; X &gt;&gt; Y;</span><br><span class="line">    </span><br><span class="line">    r[<span class="number">1</span>] = <span class="number">0</span>, b[<span class="number">1</span>] = <span class="number">1</span>;</span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> n = <span class="number">2</span>; n &lt;= N; n ++ )&#123;</span><br><span class="line">        b[n] = r[n - <span class="number">1</span>] + b[n - <span class="number">1</span>] * Y;</span><br><span class="line">        r[n] = r[n - <span class="number">1</span>] + b[n] * X;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
- 
+<p><strong>例题2</strong>：</p>
+<p><a target="_blank" rel="noopener" href="https://ac.nowcoder.com/acm/contest/33186/I">麻将模拟</a></p>
+<p>题意：</p>
+<blockquote>
+<p>开局13个麻将，求摸多少局能凑够7个对子的期望。</p>
+</blockquote>
+<p>思路：</p>
+<p>先确定终止状态，即手中有了7个对子，没有单牌。回合数为 0。</p>
+<p><img src="https://s2.loli.net/2022/07/20/GHSiE2UwNPjIKAx.jpg" alt="18FB577B-791A-485C-9CCE-AE17F8AB49C6.jpeg"></p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">void</span> <span class="title">init</span><span class="params">()</span></span>&#123;</span><br><span class="line">    <span class="comment">// 初始化的终点为 0, 凑成七个对子需要 0 局，即i == 0的情况</span></span><br><span class="line">    <span class="comment">// 0 不需要初始化了。</span></span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> i = <span class="number">1</span>; i &lt;= <span class="number">13</span>; i += <span class="number">2</span>)&#123;</span><br><span class="line">        <span class="keyword">for</span>(<span class="type">int</span> j = <span class="number">1</span>; j &lt;= <span class="number">123</span>; j ++ )&#123;</span><br><span class="line">            <span class="keyword">if</span>(i == <span class="number">1</span>)</span><br><span class="line">            f[i][j] = (<span class="number">1</span> + ((j - <span class="number">3</span>) * <span class="built_in">qmi</span>(j, mod - <span class="number">2</span>) % mod) * f[i][j - <span class="number">1</span>]) % mod;</span><br><span class="line">            <span class="keyword">else</span> </span><br><span class="line">            f[i][j] = (<span class="number">1</span> + (<span class="number">3</span> * i * <span class="built_in">qmi</span>(j, mod - <span class="number">2</span>) % mod) * f[i - <span class="number">2</span>][j - <span class="number">1</span>] % mod + ((j - <span class="number">3</span> * i) * <span class="built_in">qmi</span>(j, mod - <span class="number">2</span>) % mod) * f[i][j - <span class="number">1</span>] % mod) % mod;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">solve</span><span class="params">()</span></span>&#123;</span><br><span class="line">    cin &gt;&gt; (s + <span class="number">1</span>);</span><br><span class="line">    mp.<span class="built_in">clear</span>();</span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> i = <span class="number">2</span>; i &lt;= <span class="number">26</span>; i += <span class="number">2</span>)&#123;</span><br><span class="line">        string s1 = <span class="string">&quot;&quot;</span>;</span><br><span class="line">        s1 += s[i - <span class="number">1</span>];</span><br><span class="line">        s1 += s[i];</span><br><span class="line">        mp[s1] ++ ;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="type">int</span> cnt = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">auto</span> u : mp)&#123;</span><br><span class="line">        <span class="keyword">if</span>(u.second == <span class="number">1</span>) cnt ++ ;</span><br><span class="line">    &#125;</span><br><span class="line">    cout &lt;&lt; f[cnt][<span class="number">123</span>];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure> 
       <!-- reward -->
       
     </div>
@@ -185,12 +210,12 @@
     <a class="modal-close" href="javascript:;"><i class="ri-close-circle-line"></i></a>
     <p>扫一扫，分享到微信</p>
     <div class="wx-qrcode">
-      <img src="//api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://hanzug.github.io/2022/07/19/Changign-Jewels/" alt="微信分享二维码">
+      <img src="//api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://hanzug.github.io/2022/07/20/%E6%9C%9F%E6%9C%9Bdp%E6%A6%82%E7%8E%87dp/" alt="微信分享二维码">
     </div>
 </div>
 
 <div id="share-mask"></div>  
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%80%9D%E7%BB%B4/" rel="tag">思维</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%90%9C%E7%B4%A2/" rel="tag">搜索</a></li></ul>
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%9C%9F%E6%9C%9Bdp-%E6%A6%82%E7%8E%87dp/" rel="tag">期望dp/概率dp</a></li></ul>
 
     </footer>
   </div>
@@ -198,19 +223,10 @@
    
   <nav class="article-nav">
     
-      <a href="/2022/07/20/%E6%9C%9F%E6%9C%9Bdp%E6%A6%82%E7%8E%87dp/" class="article-nav-link">
-        <strong class="article-nav-caption">上一篇</strong>
-        <div class="article-nav-title">
-          
-            期望dp/概率dp
-          
-        </div>
-      </a>
     
-    
-      <a href="/2022/07/19/Qpwoeirut-And-The-City/" class="article-nav-link">
+      <a href="/2022/07/19/Changign-Jewels/" class="article-nav-link">
         <strong class="article-nav-caption">下一篇</strong>
-        <div class="article-nav-title">Qpwoeirut And The City</div>
+        <div class="article-nav-title">Changign Jewels</div>
       </a>
     
   </nav>
