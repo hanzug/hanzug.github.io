@@ -162,6 +162,33 @@
       </tags>
   </entry>
   <entry>
+    <title>杭电杯 1012.Alice and Bob</title>
+    <url>/2022/07/20/%E6%9D%AD%E7%94%B5%E6%9D%AF-1012.Alice-and-Bob/</url>
+    <content><![CDATA[<p><a href=""></a></p>
+<p><strong>题意</strong>：</p>
+<blockquote>
+<p><img src="https://www.zhihu.com/equation?tex=Alice" alt="[公式]">和<img src="https://www.zhihu.com/equation?tex=Bob" alt="[公式]">玩游戏，有<img src="https://www.zhihu.com/equation?tex=n" alt="[公式]">个数在黑板上，当数中没有<img src="https://www.zhihu.com/equation?tex=0" alt="[公式]">的时候，<img src="https://www.zhihu.com/equation?tex=Alice" alt="[公式]">可以选择把这些数分为两个集合，然后<img src="https://www.zhihu.com/equation?tex=Bob" alt="[公式]">可以选择删掉其中一个集合的所有数，并且失衡下的另一个集合中的数全部减去<img src="https://www.zhihu.com/equation?tex=1" alt="[公式]">，重复这个过程</p>
+<p>结束条件： 黑板上有数减到 0 ，Alice win</p>
+<p>​                    黑板上所有数都擦完了， bob win</p>
+</blockquote>
+<p><em>思路</em>：</p>
+<blockquote>
+<p>考虑终止情况， 如果出现两个 1 ，则 Alice 可以将其分成两部分，则必有一个1减到了 0。</p>
+<p>转换看法，题目可以看成，Alice每次可以把一对相同的数转化为一半数量的大小减一 的数。</p>
+<p>我们只要从后往前遍历一遍看是否可以转换出 0.</p>
+</blockquote>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="type">void</span> <span class="title">solve</span><span class="params">()</span></span>&#123;</span><br><span class="line">    cin &gt;&gt; n;</span><br><span class="line">    <span class="type">int</span> f = <span class="number">0</span>;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> i = <span class="number">0</span>; i &lt;= n; i ++ ) cin &gt;&gt; a[i];</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> i = n; i &gt;= <span class="number">1</span>; i -- ) a[i - <span class="number">1</span>] += a[i] / <span class="number">2</span>;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">if</span>(a[<span class="number">0</span>]) cout &lt;&lt; <span class="string">&quot;Alice&quot;</span> &lt;&lt; <span class="string">&#x27;\n&#x27;</span>;</span><br><span class="line">    <span class="keyword">else</span> cout &lt;&lt; <span class="string">&quot;Bob&quot;</span> &lt;&lt; <span class="string">&#x27;\n&#x27;</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+]]></content>
+      <categories>
+        <category>题</category>
+      </categories>
+      <tags>
+        <tag>思维</tag>
+        <tag>博弈论</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>notes</title>
     <url>/categories/index.html</url>
     <content><![CDATA[<!-- ---
