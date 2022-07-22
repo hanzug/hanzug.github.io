@@ -11,7 +11,7 @@
         name="viewport"
         content="width=device-width, initial-scale=1, maximum-scale=1"
       />
-      <title>BSGS |  </title>
+      <title>杭电杯 1003 Copy |  </title>
   <meta name="generator" content="hexo-theme-ayer">
        
 <link rel="stylesheet" href="/dist/main.css">
@@ -51,7 +51,7 @@
     <main class="content on">
       <section class="outer">
   <article
-  id="post-BSGS"
+  id="post-Copy"
   class="article article-type-post"
   itemscope
   itemprop="blogPost"
@@ -62,7 +62,7 @@
     <header class="article-header">
        
 <h1 class="article-title sea-center" style="border-left:0" itemprop="name">
-  BSGS
+  杭电杯 1003 Copy
 </h1>
  
 
@@ -70,11 +70,11 @@
     </header>
      
     <div class="article-meta">
-      <a href="/2022/07/20/BSGS/" class="article-date">
-  <time datetime="2022-07-20T10:12:35.117Z" itemprop="datePublished">2022-07-20</time>
+      <a href="/2022/07/22/Copy/" class="article-date">
+  <time datetime="2022-07-22T07:44:34.739Z" itemprop="datePublished">2022-07-22</time>
 </a> 
   <div class="article-category">
-    <a class="article-category-link" href="/categories/%E7%AC%94%E8%AE%B0/">笔记</a>
+    <a class="article-category-link" href="/categories/%E9%A2%98/">题</a>
   </div>
   
 <div class="word_count">
@@ -82,7 +82,7 @@
         <span class="post-meta-item-icon">
             <i class="ri-quill-pen-line"></i>
             <span class="post-meta-item-text"> Word count:</span>
-            <span class="post-count">898</span>
+            <span class="post-count">593</span>
         </span>
     </span>
 
@@ -91,7 +91,7 @@
         <span class="post-meta-item-icon">
             <i class="ri-book-open-line"></i>
             <span class="post-meta-item-text"> Reading time≈</span>
-            <span class="post-count">4 min</span>
+            <span class="post-count">2 min</span>
         </span>
     </span>
 </div>
@@ -104,53 +104,24 @@
   
     <div class="article-entry" itemprop="articleBody">
        
-  <p><strong>普通BSGS</strong></p>
-<p><em>适用问题：</em></p>
+  <p><a target="_blank" rel="noopener" href="https://acm.hdu.edu.cn/contest/problem?cid=1045&pid=1003">题目</a></p>
+<p>题意：</p>
 <blockquote>
-<p>给定正整数，$a, b, p, 且a与p互质$  求满足<font size = 5>$a^x $ ≡ $b (mod \ p)$</font> 的<strong>最小非负整数</strong> </p>
+<p>给定一个数组，两种操作：</p>
+<p>1.给定 l， r 复制 l ~ r 内的数，插入到 r 后</p>
+<p>2.询问数组中第 x 个数的值</p>
+<p>求值的异或和。</p>
 </blockquote>
-<hr>
-<p>证明：</p>
+<p><strong>思路</strong> ：</p>
 <blockquote>
-<p>由欧拉定理的推论：</p>
-<p><font size = 5>$a^x ≡ a^{x\ mod\ \varphi(p)} (mod\ p)$ </font> 所以可以得到<strong>最小循环节</strong>为$\varphi(p)$ ，则缩小答案区间为$x \in [0, \varphi(p) - 1]$ </p>
-<p>欧拉函数复杂度过大，则可以对欧拉函数进行放缩， 由<font size = 5> $\varphi(p) &lt;= p$ </font> 可以确定答案 <font size = 5>$x$</font> 的取值为$[0, p].$</p>
-<p>通过公式对暴力枚举的算法进行优化：</p>
-<p><font size = 4>$令 x = kt - y, k = \lfloor\sqrt{q}\rfloor + 1$ </font> 则原式为 <font size = 4>$a^{kt} ≡ ba^y ( mod p)$</font> </p>
-<p>$y$  的范围是$[0, k - 1]$ 则可以枚举每个 y， 预处理同余符号右边的值，插入到hash表中，再枚举左边，</p>
-<p>$t\in[1, k]$  如果hash表中存在其值，则当前就是一个答案，</p>
-<p><strong>由于边界问题，需要特判 t = 0 的情况</strong></p>
+<p><em>由于求的是询问值的异或和，则考虑答案的表示形式， 数组中每个值是否询问到，可以考虑用 0 / 1 来表示，每次对数组的改变是区间的形式，则考虑bitset / 位运算</em></p>
+<p>一个修改操作对后续查询操作的影响： 如果 x &lt;= r 没影响，如果 x &gt; r 则相当于查询  x - (r - l + 1).  可以考虑 bitset 位运算</p>
+<p>令 $f[i]$ 表示答案需要对 $a[i]$ 异或。、</p>
+<p>我们在倒序离线处理的过程中，每次可以 f 中的 1 转移到复制之前的位置。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span>(p[i].opt == <span class="number">1</span>)&#123;</span><br><span class="line">                bitset&lt;N&gt; low, high;</span><br><span class="line">                <span class="comment">// bitset 一般都是从左开始往右看。</span></span><br><span class="line">                low = f &amp; (all &gt;&gt; (n - r));  <span class="comment">// 截取 0 ~ r</span></span><br><span class="line">                high = f &amp; (all &lt;&lt; (r)); <span class="comment">// 截取 r + 1 ~ n</span></span><br><span class="line">                f = low ^ (high &gt;&gt; (r - l + <span class="number">1</span>)); <span class="comment">// 拼接新串(划掉)</span></span><br><span class="line">                <span class="comment">/*</span></span><br><span class="line"><span class="comment">                将这之后的查询转移到复制前的串中</span></span><br><span class="line"><span class="comment">                这就是反向离线查询的目的啊</span></span><br><span class="line"><span class="comment">                */</span></span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">else</span> f.<span class="built_in">flip</span>(l);</span><br></pre></td></tr></table></figure>
 </blockquote>
-<p>$\color{cyan}{板子如下}$</p>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">int</span> a, b, p;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">bsgs</span><span class="params">(<span class="type">int</span> a, <span class="type">int</span> b, <span class="type">int</span> p)</span></span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(<span class="number">1</span> % p == b % p) <span class="keyword">return</span> <span class="number">0</span>; <span class="comment">// 特判 t = 0, t = 0 则 b = 1;</span></span><br><span class="line">    </span><br><span class="line">    <span class="type">int</span> k = <span class="built_in">sqrt</span>(p) + <span class="number">1</span>; <span class="comment">// sqrt(q) 下取整 + 1</span></span><br><span class="line">    </span><br><span class="line">    unordered_map&lt;<span class="type">int</span>, <span class="type">int</span>&gt; mp;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> i = <span class="number">0</span>, j = b % p; i &lt; k; i ++ )&#123; <span class="comment">// hash存一下右值</span></span><br><span class="line">        mp[j] = i; <span class="comment">// 小的 y 会被大的 y覆盖, 因为题目求的是最小的正整数解,故 y 越大越好</span></span><br><span class="line">        j = j * a % p;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="type">int</span> ak = <span class="number">1</span>;</span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> i = <span class="number">0</span>; i &lt; k; i ++ ) ak = ak * a % p;</span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> i = <span class="number">1</span>, j = ak; i &lt;= k; i ++ )&#123;</span><br><span class="line">        <span class="keyword">if</span>(mp.<span class="built_in">count</span>(j)) <span class="keyword">return</span> i * k - mp[j]; <span class="comment">// 如果存在与左值相同的右值</span></span><br><span class="line">        j = j * ak % p;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">-1</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">signed</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line">    <span class="keyword">while</span>(cin &gt;&gt; a &gt;&gt; p &gt;&gt; b, a || b || p)&#123;</span><br><span class="line">        <span class="type">int</span> res = <span class="built_in">bsgs</span>(a, b, p);</span><br><span class="line">        <span class="keyword">if</span>(res == <span class="number">-1</span>)&#123;</span><br><span class="line">            cout &lt;&lt; <span class="string">&quot;No Solution&quot;</span> &lt;&lt; <span class="string">&#x27;\n&#x27;</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">else</span> cout &lt;&lt; res &lt;&lt; <span class="string">&#x27;\n&#x27;</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-
-
-<p><strong>exBSGS</strong>:</p>
-<p><em>问题</em>:</p>
-<blockquote>
-<p>区别是$a$ 和$q$ 不一定互质</p>
-</blockquote>
-<p><strong>首先</strong> 还是先特判 x = 0.</p>
-<p>然后:</p>
-<p>用$gcd(a, p)$ 来构建一个递归函数</p>
-<p>当$gcd(a, p)$ == 1时进行普通的bsgs</p>
-<p>当$gcd(a, p) != 1$ 时:</p>
-<blockquote>
-<p>$a^x + kp = b$ </p>
-<p>设$gcd(a, p) == d$ 如果$d 不整除 p$ 则无解, 否则等式两边同除于 d</p>
-<p>得到:<font size = 5> $\frac{a}{b}a^{x - 1} + k\frac{p}{d} = \frac{b}{d}$ </font> </p>
-<p>等价于同余方程<font size = 5> $\frac{a}{b}a^{x - 1} ≡ \frac{b}{d} ( mod\ \frac{p}{d})$ </font></p>
-<p>由于$gcd(\frac{a}{d} == 1)$ 所以把 $\frac{a}{b}$ 移到右边,就是乘它的逆元</p>
-<p>最后用新变量替换后:</p>
-<p><font size = 5>$(a^<code>)^x ≡ b^</code> (mod \ p^`)$ </font></p>
-<p>替换后答案为$x + 1$</p>
-</blockquote>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span><span class="string">&lt;bits/stdc++.h&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> int long long</span></span><br><span class="line"></span><br><span class="line"><span class="type">int</span> a, b, p;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">exgcd</span><span class="params">(<span class="type">int</span> a, <span class="type">int</span> b, <span class="type">int</span> &amp;x, <span class="type">int</span> &amp;y)</span></span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(!b)&#123;</span><br><span class="line">        x = <span class="number">1</span>, y = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">return</span> a;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="type">int</span> d = <span class="built_in">exgcd</span>(b, a % b, y, x);</span><br><span class="line">    y -= a / b * x;</span><br><span class="line">    <span class="keyword">return</span> d;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">bsgs</span><span class="params">(<span class="type">int</span> a, <span class="type">int</span> b, <span class="type">int</span> p)</span></span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(<span class="number">1</span> % p == b % p) <span class="keyword">return</span> <span class="number">0</span>; <span class="comment">// 特判0</span></span><br><span class="line">    <span class="type">int</span> k = <span class="built_in">sqrt</span>(p) + <span class="number">1</span>;</span><br><span class="line">    unordered_map&lt;<span class="type">int</span>, <span class="type">int</span>&gt; mp;</span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> i = <span class="number">0</span>, j = b % p; i &lt; k; i ++ )&#123;</span><br><span class="line">        mp[j] = i;</span><br><span class="line">        j = j * a % p;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="type">int</span> ak = <span class="number">1</span>;</span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> i = <span class="number">0</span>; i &lt; k; i ++ ) ak = ak * a % p;</span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> i = <span class="number">1</span>, j = ak; i &lt;= k; i ++ )&#123;</span><br><span class="line">        <span class="keyword">if</span>(mp.<span class="built_in">count</span>(j)) <span class="keyword">return</span> i * k - mp[j];</span><br><span class="line">        j = j * ak % p;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">-2e9</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">exbsgs</span><span class="params">(<span class="type">int</span> a, <span class="type">int</span> b,<span class="type">int</span> p)</span></span>&#123;</span><br><span class="line">    b = (b % p + p) % p; <span class="comment">// 防止b为负数</span></span><br><span class="line">    <span class="keyword">if</span>(<span class="number">1</span> % p == b % p) <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">    <span class="type">int</span> x, y;</span><br><span class="line">    <span class="type">int</span> d = <span class="built_in">exgcd</span>(a, p, x, y);</span><br><span class="line">    <span class="keyword">if</span>(d &gt; <span class="number">1</span>)&#123;</span><br><span class="line">        <span class="keyword">if</span>(b % d) <span class="keyword">return</span> <span class="number">-2e9</span>; <span class="comment">// 不能整除,无解</span></span><br><span class="line">        <span class="built_in">exgcd</span>(a / d, p / d, x, y);</span><br><span class="line">        <span class="keyword">return</span> <span class="built_in">exbsgs</span>(a, b / d * x % (p / d), p / d) + <span class="number">1</span>; <span class="comment">// 注意 + 1</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="built_in">bsgs</span>(a, b, p);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">signed</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line">    <span class="keyword">while</span>(cin &gt;&gt; a &gt;&gt; p &gt;&gt; b, a || b || p)&#123;</span><br><span class="line">        <span class="type">int</span> res = <span class="built_in">exbsgs</span>(a, b, p);</span><br><span class="line">        <span class="keyword">if</span>(res &lt; <span class="number">0</span>)&#123;</span><br><span class="line">            cout &lt;&lt; <span class="string">&quot;No Solution&quot;</span> &lt;&lt; <span class="string">&#x27;\n&#x27;</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">else</span> &#123;</span><br><span class="line">            cout &lt;&lt; res &lt;&lt; <span class="string">&#x27;\n&#x27;</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-
-
-
+<p><strong>code</strong>:</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">const</span> <span class="type">int</span> N = <span class="number">1e5</span> + <span class="number">10</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">struct</span> <span class="title class_">Q</span> &#123;</span><br><span class="line">    <span class="type">int</span> opt, l, r;</span><br><span class="line">&#125;p[N];</span><br><span class="line"></span><br><span class="line"><span class="type">int</span> n, q;</span><br><span class="line"><span class="type">int</span> a[N];</span><br><span class="line"></span><br><span class="line">bitset&lt;N&gt; f, all;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line">    <span class="type">int</span> t; cin &gt;&gt; t;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">while</span>(t -- )&#123;</span><br><span class="line">        cin &gt;&gt; n &gt;&gt; q;</span><br><span class="line">        <span class="keyword">for</span>(<span class="type">int</span> i = <span class="number">1</span>; i &lt;= n; i ++ )&#123;</span><br><span class="line">            <span class="built_in">scanf</span>(<span class="string">&quot;%d&quot;</span>, a + i);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">for</span>(<span class="type">int</span> i = <span class="number">1</span>; i &lt;= q; i ++ )&#123;</span><br><span class="line">            <span class="type">int</span> op, l, r;</span><br><span class="line">            cin &gt;&gt; op;</span><br><span class="line">            <span class="keyword">if</span>(op == <span class="number">1</span>)&#123;</span><br><span class="line">                <span class="built_in">scanf</span>(<span class="string">&quot;%d%d&quot;</span>, &amp;l, &amp;r), p[i] = &#123;op, l, r&#125;;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">else</span> &#123;</span><br><span class="line">                cin &gt;&gt; l, p[i] = &#123;op, l, <span class="number">0</span>&#125;;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        all.<span class="built_in">reset</span>(), f.<span class="built_in">reset</span>();</span><br><span class="line"></span><br><span class="line">        <span class="keyword">for</span>(<span class="type">int</span> i = <span class="number">1</span>; i &lt;= n; i ++ )&#123;</span><br><span class="line">            all[i] = <span class="number">1</span>;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// all 是工具bitset， 用于 &amp; 截取需要的 bit 段</span></span><br><span class="line"></span><br><span class="line">        <span class="keyword">for</span>(<span class="type">int</span> i = q; i &gt;= <span class="number">1</span>; i -- )&#123;</span><br><span class="line">            <span class="type">int</span> l = p[i].l, r = p[i].r;</span><br><span class="line">            <span class="keyword">if</span>(p[i].opt == <span class="number">1</span>)&#123;</span><br><span class="line">                bitset&lt;N&gt; low, high;</span><br><span class="line">                <span class="comment">// bitset 一般都是从左开始往右看。</span></span><br><span class="line">                low = f &amp; (all &gt;&gt; (n - r));  <span class="comment">// 截取 0 ~ r</span></span><br><span class="line">                high = f &amp; (all &lt;&lt; (r)); <span class="comment">// 截取 r + 1 ~ n</span></span><br><span class="line">                f = low ^ (high &gt;&gt; (r - l + <span class="number">1</span>)); <span class="comment">// 拼接新串(划掉)</span></span><br><span class="line">                <span class="comment">/*</span></span><br><span class="line"><span class="comment">                将这之后的查询转移到复制前的串中</span></span><br><span class="line"><span class="comment">                这就是反向离线查询的目的啊</span></span><br><span class="line"><span class="comment">                */</span></span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">else</span> f.<span class="built_in">flip</span>(l);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="type">int</span> ans = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">for</span>(<span class="type">int</span> i = <span class="number">1</span>; i &lt;= n; i ++ )&#123;</span><br><span class="line">            <span class="keyword">if</span>(f[i]) ans ^= a[i];</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">&quot;%d\n&quot;</span>, ans);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
  
       <!-- reward -->
@@ -216,12 +187,12 @@
     <a class="modal-close" href="javascript:;"><i class="ri-close-circle-line"></i></a>
     <p>扫一扫，分享到微信</p>
     <div class="wx-qrcode">
-      <img src="//api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://hanzug.github.io/2022/07/20/BSGS/" alt="微信分享二维码">
+      <img src="//api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://hanzug.github.io/2022/07/22/Copy/" alt="微信分享二维码">
     </div>
 </div>
 
 <div id="share-mask"></div>  
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%95%B0%E5%AD%A6/" rel="tag">数学</a></li></ul>
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/bitset/" rel="tag">bitset</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E4%BD%8D%E8%BF%90%E7%AE%97/" rel="tag">位运算</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%80%9D%E7%BB%B4/" rel="tag">思维</a></li></ul>
 
     </footer>
   </div>
@@ -229,19 +200,10 @@
    
   <nav class="article-nav">
     
+    
       <a href="/2022/07/20/FFT%EF%BC%8CNNT/" class="article-nav-link">
-        <strong class="article-nav-caption">上一篇</strong>
-        <div class="article-nav-title">
-          
-            FFT 快速傅里叶变换
-          
-        </div>
-      </a>
-    
-    
-      <a href="/2022/07/20/%E6%9D%AD%E7%94%B5%E6%9D%AF-1002-Dragon-slayer/" class="article-nav-link">
         <strong class="article-nav-caption">下一篇</strong>
-        <div class="article-nav-title">杭电杯 1002 Dragon slayer</div>
+        <div class="article-nav-title">FFT 快速傅里叶变换</div>
       </a>
     
   </nav>

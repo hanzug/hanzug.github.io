@@ -51,7 +51,7 @@
     <main class="content on">
       <section class="outer">
   <article
-  id="post-FFT-快速傅里叶变换"
+  id="post-FFT，NNT"
   class="article article-type-post"
   itemscope
   itemprop="blogPost"
@@ -70,7 +70,7 @@
     </header>
      
     <div class="article-meta">
-      <a href="/2022/07/20/FFT-%E5%BF%AB%E9%80%9F%E5%82%85%E9%87%8C%E5%8F%B6%E5%8F%98%E6%8D%A2/" class="article-date">
+      <a href="/2022/07/20/FFT%EF%BC%8CNNT/" class="article-date">
   <time datetime="2022-07-20T15:14:23.632Z" itemprop="datePublished">2022-07-20</time>
 </a> 
   <div class="article-category">
@@ -82,7 +82,7 @@
         <span class="post-meta-item-icon">
             <i class="ri-quill-pen-line"></i>
             <span class="post-meta-item-text"> Word count:</span>
-            <span class="post-count">1.3k</span>
+            <span class="post-count">1.5k</span>
         </span>
     </span>
 
@@ -91,7 +91,7 @@
         <span class="post-meta-item-icon">
             <i class="ri-book-open-line"></i>
             <span class="post-meta-item-text"> Reading time≈</span>
-            <span class="post-count">6 min</span>
+            <span class="post-count">7 min</span>
         </span>
     </span>
 </div>
@@ -132,6 +132,17 @@
 <p>所以我们可以把 b(x) 放到 a(x) 的虚部上去，求出$a(x)^2$<br>，然后把 a(x) 的虚部取出来除 2 就是答案</p>
 </blockquote>
 <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">void</span> <span class="title">FFT</span><span class="params">(Complex * A, <span class="type">int</span> type)</span><span class="comment">//FFT板子</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> i = <span class="number">0</span>; i &lt; limit; ++ i)</span><br><span class="line">        <span class="keyword">if</span>(i &lt; R[i])</span><br><span class="line">            <span class="built_in">swap</span>(A[i], A[R[i]]);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> mid = <span class="number">1</span>; mid &lt; limit; mid &lt;&lt;= <span class="number">1</span>) &#123;</span><br><span class="line">        <span class="function">Complex <span class="title">wn</span><span class="params">(cos(PI / mid), type * sin(PI / mid))</span></span>;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">for</span>(<span class="type">int</span> len = mid &lt;&lt; <span class="number">1</span>, pos = <span class="number">0</span>; pos &lt; limit; pos += len) &#123;</span><br><span class="line">            <span class="function">Complex <span class="title">w</span><span class="params">(<span class="number">1</span>, <span class="number">0</span>)</span></span>;</span><br><span class="line"></span><br><span class="line">            <span class="keyword">for</span>(<span class="type">int</span> k = <span class="number">0</span>; k &lt; mid; ++ k, w = w * wn) &#123;</span><br><span class="line">                Complex x = A[pos + k];</span><br><span class="line">                Complex y = w * A[pos + mid + k];</span><br><span class="line">                A[pos + k] = x + y;</span><br><span class="line">                A[pos + mid + k] = x - y;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span>(type == <span class="number">1</span>) <span class="keyword">return</span> ;</span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> i = <span class="number">0</span>; i &lt;= limit; ++ i)</span><br><span class="line">        a[i].x /= limit, a[i].y /= limit;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    n = <span class="built_in">read</span>(), m = <span class="built_in">read</span>();</span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> i = <span class="number">0</span>; i &lt;= n; ++ i)</span><br><span class="line">        a[i].x = <span class="built_in">read</span>();</span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> i = <span class="number">0</span>; i &lt;= m; ++ i)</span><br><span class="line">        a[i].y = <span class="built_in">read</span>();<span class="comment">//把b(x)放到a(x)的虚部上</span></span><br><span class="line">    <span class="keyword">while</span>(limit &lt;= n + m)</span><br><span class="line">        limit &lt;&lt;= <span class="number">1</span>, L ++ ;</span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> i = <span class="number">0</span>; i &lt; limit; ++ i)</span><br><span class="line">        R[i] = (R[i &gt;&gt; <span class="number">1</span>] &gt;&gt; <span class="number">1</span>) | ((i &amp; <span class="number">1</span>) &lt;&lt; (L - <span class="number">1</span>));</span><br><span class="line">    <span class="built_in">FFT</span>(a, <span class="number">1</span>);</span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> i = <span class="number">0</span>; i &lt;= limit; ++ i)</span><br><span class="line">        a[i] = a[i] * a[i];<span class="comment">//求出a(x)^2</span></span><br><span class="line">    <span class="built_in">FFT</span>(a, <span class="number">-1</span>);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> i = <span class="number">0</span>; i &lt;= n + m; ++ i)</span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">&quot;%d &quot;</span>, (<span class="type">int</span>)(a[i].y / <span class="number">2</span> + <span class="number">0.5</span>)); </span><br><span class="line">        <span class="comment">//虚部取出来除2，注意要+0.5，否则精度会有问题,这里的x和y都是double</span></span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p><strong>NTT</strong></p>
+<p><em>原根</em></p>
+<blockquote>
+<p>$对于 g，p \in Z, 如果 g^i\ mod \ p (1 &lt;= i &lt;= p - 1) 的值互不相同， 则称 g 为 p 的原根$</p>
+<p>没什么快速求法，只能暴力枚举，</p>
+<p>但是：</p>
+<p>通常的模数有 ：998244353 ,1004535809,469762049，这几个数的原根都是 3.</p>
+</blockquote>
+<p>NTT 板子：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">define</span> g 3 <span class="comment">// 原根</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> mod 998244353 <span class="comment">// 通常状态下的模数</span></span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">qmi</span><span class="params">(<span class="type">int</span> x, <span class="type">int</span> y)</span></span>&#123;</span><br><span class="line">    </span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">inline</span> <span class="type">void</span> <span class="title">ntt</span><span class="params">(<span class="type">int</span> a[],<span class="type">int</span> len,<span class="type">int</span> inv)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="type">int</span> bit=<span class="number">0</span>;</span><br><span class="line">	<span class="keyword">while</span> ((<span class="number">1</span>&lt;&lt;bit)&lt;len)++bit;</span><br><span class="line">	<span class="built_in">fo</span>(i,<span class="number">0</span>,len<span class="number">-1</span>)</span><br><span class="line">	&#123;</span><br><span class="line">		rev[i]=(rev[i&gt;&gt;<span class="number">1</span>]&gt;&gt;<span class="number">1</span>)|((i&amp;<span class="number">1</span>)&lt;&lt;(bit<span class="number">-1</span>));</span><br><span class="line">		<span class="keyword">if</span> (i&lt;rev[i])<span class="built_in">swap</span>(a[i],a[rev[i]]);</span><br><span class="line">	&#125;<span class="comment">//前面和FFT一样</span></span><br><span class="line">	<span class="keyword">for</span> (<span class="type">int</span> mid=<span class="number">1</span>;mid&lt;len;mid*=<span class="number">2</span>)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="type">int</span> tmp=<span class="built_in">pow</span>(g,(mod<span class="number">-1</span>)/(mid*<span class="number">2</span>));<span class="comment">//原根代替单位根</span></span><br><span class="line">		<span class="keyword">if</span> (inv==<span class="number">-1</span>)tmp=<span class="built_in">pow</span>(tmp,mod<span class="number">-2</span>);<span class="comment">//逆变换则乘上逆元</span></span><br><span class="line">		<span class="keyword">for</span> (<span class="type">int</span> i=<span class="number">0</span>;i&lt;len;i+=mid*<span class="number">2</span>)</span><br><span class="line">		&#123;</span><br><span class="line">			<span class="type">int</span> omega=<span class="number">1</span>;</span><br><span class="line">			<span class="keyword">for</span> (ll j=<span class="number">0</span>;j&lt;mid;++j,omega=omega*tmp%mod)</span><br><span class="line">			&#123;</span><br><span class="line">				<span class="type">int</span> x=a[i+j],y=omega*a[i+j+mid]%mod;</span><br><span class="line">				a[i+j]=(x+y)%mod,a[i+j+mid]=(x-y+mod)%mod;<span class="comment">//注意取模</span></span><br><span class="line">			&#125;</span><br><span class="line">		&#125;<span class="comment">//大体和FFT差不多</span></span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
  
       <!-- reward -->
@@ -197,7 +208,7 @@
     <a class="modal-close" href="javascript:;"><i class="ri-close-circle-line"></i></a>
     <p>扫一扫，分享到微信</p>
     <div class="wx-qrcode">
-      <img src="//api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://hanzug.github.io/2022/07/20/FFT-%E5%BF%AB%E9%80%9F%E5%82%85%E9%87%8C%E5%8F%B6%E5%8F%98%E6%8D%A2/" alt="微信分享二维码">
+      <img src="//api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://hanzug.github.io/2022/07/20/FFT%EF%BC%8CNNT/" alt="微信分享二维码">
     </div>
 </div>
 
@@ -209,6 +220,15 @@
 
    
   <nav class="article-nav">
+    
+      <a href="/2022/07/22/Copy/" class="article-nav-link">
+        <strong class="article-nav-caption">上一篇</strong>
+        <div class="article-nav-title">
+          
+            杭电杯 1003 Copy
+          
+        </div>
+      </a>
     
     
       <a href="/2022/07/20/BSGS/" class="article-nav-link">
